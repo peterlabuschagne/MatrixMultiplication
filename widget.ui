@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1285</width>
-    <height>573</height>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,11 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QTableView" name="tableViewA"/>
+    <widget class="QTableView" name="tableViewA">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+    </widget>
    </item>
    <item row="1" column="1">
     <widget class="QTableView" name="tableViewB"/>
@@ -37,14 +41,39 @@
    <item row="1" column="2">
     <widget class="QTableView" name="tableViewC"/>
    </item>
-   <item row="2" column="0">
-    <widget class="QLineEdit" name="rowFwidget"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLineEdit" name="colFWidget"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLineEdit" name="ans"/>
+   <item row="2" column="0" colspan="3">
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Row</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="rowFwidget"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Column</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Floyd number</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="ans"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="colFWidget"/>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

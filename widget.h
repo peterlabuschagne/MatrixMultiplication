@@ -20,22 +20,22 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-
-private slots:
-    void on_multiply_clicked();
-    void on_exit_clicked();
-//    void on_rowA_valueChanged(int arg1);
-//    void on_colA_valueChanged(int arg1);
-//    void on_rowB_valueChanged(int arg1);
-//    void on_colB_valueChanged(int arg1);
-
-private:
     double getValueAt(QStandardItemModel *model, int ix, int jx) const;
     void appendTo(QStandardItemModel *model, double value) const;
+    void floydValue() const;
     Ui::Widget *ui;
     QStandardItemModel *mModelA;
     QStandardItemModel *mModelB;
     QStandardItemModel *mModelC;
+
+private slots:
+    void on_multiply_clicked();
+    void on_exit_clicked();
+    void on_rowFwidget_editingFinished();
+    void on_colFWidget_editingFinished();
+
+private:
+
 
 };
 

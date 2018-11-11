@@ -26,12 +26,11 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        widget.cpp \
-    spinboxdelegate.cpp
+        widget.cpp
 
 HEADERS += \
         widget.h \
-    spinboxdelegate.h
+    model.h
 
 FORMS += \
         widget.ui

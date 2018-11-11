@@ -1,47 +1,32 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "spinboxdelegate.h"
+#include "model.h"
 #include <QStandardItemModel>
 #include <QDebug>
 
 
-Widget::Widget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Widget)
+Widget::~Widget()
 {
-    ui->setupUi(this);
-    mModelA = new QStandardItemModel(this);
-    mModelB = new QStandardItemModel(this);
-    mModelC = new QStandardItemModel(this);
-    mModelA->setRowCount(2);
-    mModelA->setColumnCount(6);
-    mModelB->setRowCount(3);
-    mModelB->setColumnCount(4);
-    mModelC->setRowCount(2);
-    mModelC->setColumnCount(4);
-    ui->tableViewA->setModel(mModelA);
-    ui->tableViewB->setModel(mModelB);
-    ui->tableViewC->setModel(mModelC);
+    delete ui;
+}
 
+//------------------------------- Controller -----------------------------------//
 
-    for(int i = 0; i < 6; ++i){
-        ui->tableViewA->setColumnWidth(i,70);
-        ui->tableViewA->setFixedWidth(70*7);
+// gets value at row and column number of table model
+double Widget::getValueAt(QStandardItemModel *model, int i, int j) const
+{
+    if (!model->item(i,j)) {
+        return 0.0;
     }
-    for(int i = 0; i < 4; ++i){
-        ui->tableViewB->setColumnWidth(i,70);
-    }
-    for(int i = 0; i < 4; ++i){
-        ui->tableViewC->setColumnWidth(i,70);
-    }
+    return model->item(i, j)->text().toDouble();
+}
 
-
+// Generates a floyd number at specified index.
+void Widget::floydValue() const{
     int row = ui->rowFwidget->text().toInt();
     int col = ui->colFWidget->text().toInt();
     int num = 0;
     int i,j,k=1;
-    qInfo() << row;
-    qInfo() << col;
     for(i=1;i<=row;i++)
     {
       for(j=1;j<=i;j++)
@@ -53,28 +38,15 @@ Widget::Widget(QWidget *parent) :
         k++;
       }
     }
-    ui->ans->setText(QString::number(num));
-
-//    ui->tableViewA->setItemDelegate(new SpinBoxDelegate(this));
-//    ui->tableViewB->setItemDelegate(new SpinBoxDelegate(this));
-
-}
-
-Widget::~Widget()
-{
-    delete ui;
-}
-
-double Widget::getValueAt(QStandardItemModel *model, int i, int j) const
-{
-    if (!model->item(i,j)) {
-        return 0.0;
+    if(col > row) {
+        ui->ans->setText(QString("Doesn't exist! Please choose a column number that is less than or equal to row number."));
+    } else {
+       ui->ans->setText(QString::number(num));
     }
-    return model->item(i, j)->text().toDouble();
+
 }
 
-
-
+// Multiplies matrices when the Calculate button is clicked
 void Widget::on_multiply_clicked()
 {
     mModelC->clear();
@@ -83,6 +55,9 @@ void Widget::on_multiply_clicked()
     const int colCountB = mModelB->columnCount();
     mModelC->setRowCount(rowCountA);
     mModelC->setColumnCount(colCountB);
+    for(int i = 0; i < 4; ++i){
+        ui->tableViewC->setColumnWidth(i,70);
+    }
     double sumr, sumi;
     for(int i = 0; i < rowCountA; ++i) {
         for(int j = 0; j < colCountB; ) {
@@ -107,6 +82,7 @@ void Widget::on_multiply_clicked()
     }
 }
 
+// Inserts values into matrix C
 void Widget::appendTo(QStandardItemModel *model, double value) const
 {
     const int rowCount = model->rowCount();
@@ -121,8 +97,19 @@ void Widget::appendTo(QStandardItemModel *model, double value) const
     }
 }
 
+// Calculates the floyd value once the user has inserted a value and finished editing
+void Widget::on_rowFwidget_editingFinished()
+{
+    floydValue();
+}
+
+void Widget::on_colFWidget_editingFinished()
+{
+    floydValue();
+}
+
+// exit UI
 void Widget::on_exit_clicked()
 {
     close();
 }
-
